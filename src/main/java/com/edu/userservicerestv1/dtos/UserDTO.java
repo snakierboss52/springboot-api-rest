@@ -1,5 +1,6 @@
 package com.edu.userservicerestv1.dtos;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class UserDTO implements Serializable {
     private Long id;
 
     @NotBlank
+    @Email
     private String email;
 
     @NotBlank

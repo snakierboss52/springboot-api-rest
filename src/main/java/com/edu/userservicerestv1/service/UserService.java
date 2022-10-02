@@ -2,6 +2,7 @@ package com.edu.userservicerestv1.service;
 
 import com.edu.userservicerestv1.dtos.UserDTO;
 import com.edu.userservicerestv1.entity.User;
+import com.edu.userservicerestv1.exceptions.RequestException;
 import com.edu.userservicerestv1.mappers.UserMapper;
 import com.edu.userservicerestv1.repository.UserRepository;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Validated
@@ -22,8 +24,15 @@ public class UserService implements IUserService{
         return userRepository.findAll();
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+    public Optional<User> getUserById(Long id) {
+        if(userRepository.findById(id).isPresent()) {
+            return userRepository.findById(id);
+        }
+        throw new RequestException("User not found", "P-414");
+    }
+
+    public List<User> getUserByUsername(String username){
+        return userRepository.findAllByUserName(username);
     }
 
     @Override
